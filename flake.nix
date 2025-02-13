@@ -65,6 +65,19 @@
           pkgs.lib.composeManyExtensions [
             pyproject-build-systems.overlays.default
             overlay
+            (final: prev: {
+              pyarrow = prev.pyarrow.overrideAttrs (old: {
+                propagatedBuildInputs = (old.propagatedBuildInputs or [] ) ++ [
+                  prev.numpy
+                  pkgs.arrow-cpp
+                ];
+                nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
+                  final.setuptools
+                  final.cython
+                  pkgs.cmake
+                ];
+              });
+            })
           ]
         );
 
