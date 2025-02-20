@@ -67,9 +67,11 @@
             overlay
             (final: prev: {
               pyarrow = prev.pyarrow.overrideAttrs (old: {
+                buildInputs = (old.buildInputs or []) ++ [
+                  pkgs.arrow-cpp
+                ];
                 propagatedBuildInputs = (old.propagatedBuildInputs or [] ) ++ [
                   prev.numpy
-                  pkgs.arrow-cpp
                 ];
                 nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [
                   final.setuptools
